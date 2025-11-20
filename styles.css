@@ -261,6 +261,107 @@ body {
     }
 }
 
+/* ===== CERTIFICATIONS TICKER ===== */
+.certifications-ticker {
+    background: var(--color-black);
+    padding: 40px 0;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+.certifications-ticker::before,
+.certifications-ticker::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.certifications-ticker::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--color-black) 0%, transparent 100%);
+}
+
+.certifications-ticker::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--color-black) 0%, transparent 100%);
+}
+
+.ticker-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ticker-header h3 {
+    font-size: 24px;
+    color: var(--color-gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.ticker-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.ticker-track {
+    display: flex;
+    gap: 60px;
+    animation: scroll-left 40s linear infinite;
+    will-change: transform;
+}
+
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
+    padding: 15px 30px;
+    background: var(--color-gray);
+    border-radius: 50px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.ticker-item:hover {
+    background: var(--color-gray-light);
+    border-color: var(--color-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.ticker-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+.ticker-text {
+    font-size: 16px;
+    color: var(--color-silver);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
 /* ===== ABOUT SECTION ===== */
 .about {
     padding: 120px 0;
@@ -689,6 +790,39 @@ body {
         padding: 0 20px;
     }
     
+    /* Certifications Ticker Mobile */
+    .certifications-ticker {
+        padding: 30px 0;
+    }
+    
+    .certifications-ticker::before,
+    .certifications-ticker::after {
+        width: 50px;
+    }
+    
+    .ticker-header h3 {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+    
+    .ticker-track {
+        gap: 30px;
+        animation: scroll-left 30s linear infinite;
+    }
+    
+    .ticker-item {
+        padding: 12px 20px;
+        gap: 10px;
+    }
+    
+    .ticker-icon {
+        font-size: 20px;
+    }
+    
+    .ticker-text {
+        font-size: 14px;
+    }
+    
     .nav-menu {
         position: fixed;
         right: -100%;
@@ -997,5 +1131,27 @@ body {
     
     .contact-text {
         font-size: 16px;
+    }
+    
+    /* Certifications Ticker Extra Small Mobile */
+    .ticker-header h3 {
+        font-size: 16px;
+    }
+    
+    .ticker-track {
+        gap: 20px;
+        animation: scroll-left 25s linear infinite;
+    }
+    
+    .ticker-item {
+        padding: 10px 16px;
+    }
+    
+    .ticker-icon {
+        font-size: 18px;
+    }
+    
+    .ticker-text {
+        font-size: 13px;
     }
 }

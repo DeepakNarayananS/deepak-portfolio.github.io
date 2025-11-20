@@ -13,30 +13,47 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== MOBILE MENU TOGGLE =====
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    
-    // Animate hamburger
-    const spans = hamburger.querySelectorAll('span');
+const closeMenu = () => {
+    navMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+    document.body.style.overflow = '';
+};
+
+const openMenu = () => {
+    navMenu.classList.add('active');
+    hamburger.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
+
+hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (navMenu.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(7px, 7px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+        closeMenu();
     } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
+        openMenu();
+    }
+});
+
+// Close button in mobile menu
+const closeMenuBtn = document.querySelector('.close-menu');
+if (closeMenuBtn) {
+    closeMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+    });
+}
+
+// Close mobile menu when clicking on overlay
+document.addEventListener('click', (e) => {
+    if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMenu();
     }
 });
 
 // Close mobile menu when clicking on a link
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        const spans = hamburger.querySelectorAll('span');
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
+        closeMenu();
     });
 });
 

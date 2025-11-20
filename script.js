@@ -58,16 +58,20 @@ navLinks.forEach(link => {
 });
 
 // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
+const isMobile = window.innerWidth <= 768;
+
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: isMobile ? 0.05 : 0.1,
+    rootMargin: isMobile ? '0px' : '0px 0px -100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            if (!isMobile) {
+                entry.target.style.transform = 'translateY(0)';
+            }
         }
     });
 }, observerOptions);
@@ -75,9 +79,15 @@ const observer = new IntersectionObserver((entries) => {
 // Observe all sections
 const sections = document.querySelectorAll('section');
 sections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    if (isMobile) {
+        // On mobile, show content immediately without transform
+        section.style.opacity = '1';
+        section.style.transition = 'opacity 0.5s ease';
+    } else {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    }
     observer.observe(section);
 });
 
@@ -100,21 +110,28 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ===== PARALLAX EFFECT FOR HERO =====
-window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
+// ===== PARALLAX EFFECT FOR HERO (Desktop only) =====
+if (!isMobile) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const hero = document.querySelector('.hero');
+        if (hero && scrolled < window.innerHeight) {
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+    });
+}
 
 // ===== SKILL CARDS STAGGER ANIMATION =====
 const skillCards = document.querySelectorAll('.skill-category');
 skillCards.forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    if (isMobile) {
+        card.style.opacity = '1';
+        card.style.transition = `opacity 0.4s ease ${index * 0.05}s`;
+    } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    }
 });
 
 const skillsObserver = new IntersectionObserver((entries) => {
@@ -123,11 +140,13 @@ const skillsObserver = new IntersectionObserver((entries) => {
             const cards = entry.target.querySelectorAll('.skill-category');
             cards.forEach(card => {
                 card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
+                if (!isMobile) {
+                    card.style.transform = 'translateY(0)';
+                }
             });
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: isMobile ? 0.05 : 0.2 });
 
 const skillsSection = document.querySelector('.skills');
 if (skillsSection) {
@@ -137,9 +156,14 @@ if (skillsSection) {
 // ===== HONOR CARDS STAGGER ANIMATION =====
 const honorCards = document.querySelectorAll('.honor-card');
 honorCards.forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    if (isMobile) {
+        card.style.opacity = '1';
+        card.style.transition = `opacity 0.4s ease ${index * 0.05}s`;
+    } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    }
 });
 
 const honorsObserver = new IntersectionObserver((entries) => {
@@ -148,11 +172,13 @@ const honorsObserver = new IntersectionObserver((entries) => {
             const cards = entry.target.querySelectorAll('.honor-card');
             cards.forEach(card => {
                 card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
+                if (!isMobile) {
+                    card.style.transform = 'translateY(0)';
+                }
             });
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: isMobile ? 0.05 : 0.2 });
 
 const honorsSection = document.querySelector('.honors');
 if (honorsSection) {
@@ -165,56 +191,59 @@ const timelineObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateX(0)';
+            if (!isMobile) {
+                entry.target.style.transform = 'translateX(0)';
+            }
         }
     });
-}, { threshold: 0.3 });
+}, { threshold: isMobile ? 0.1 : 0.3 });
 
 timelineItems.forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-30px)';
-    item.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+    if (isMobile) {
+        item.style.opacity = '1';
+        item.style.transition = `opacity 0.4s ease ${index * 0.05}s`;
+    } else {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-30px)';
+        item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    }
     timelineObserver.observe(item);
 });
 
-// ===== CURSOR EFFECT (OPTIONAL - PREMIUM FEEL) =====
-const cursor = document.createElement('div');
-cursor.classList.add('custom-cursor');
-document.body.appendChild(cursor);
+// ===== CURSOR EFFECT (Desktop only) =====
+if (!isMobile && window.innerWidth >= 1024) {
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
 
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-});
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
 
-// Add cursor styles dynamically
-const style = document.createElement('style');
-style.textContent = `
-    .custom-cursor {
-        width: 20px;
-        height: 20px;
-        border: 2px solid var(--color-gold);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.2s ease;
-        display: none;
-    }
-    
-    @media (min-width: 1024px) {
+    // Add cursor styles dynamically
+    const style = document.createElement('style');
+    style.textContent = `
         .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
             display: block;
         }
-    }
-    
-    a:hover ~ .custom-cursor,
-    button:hover ~ .custom-cursor {
-        transform: scale(1.5);
-        background: rgba(212, 175, 55, 0.2);
-    }
-`;
-document.head.appendChild(style);
+        
+        a:hover ~ .custom-cursor,
+        button:hover ~ .custom-cursor {
+            transform: scale(1.5);
+            background: rgba(212, 175, 55, 0.2);
+        }
+    `;
+    document.head.appendChild(style);
+}
 
 // ===== LOADING ANIMATION =====
 window.addEventListener('load', () => {
